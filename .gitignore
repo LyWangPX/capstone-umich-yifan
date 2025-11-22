@@ -1,0 +1,14 @@
+# Large data files (can be regenerated)
+data/*.npy
+checkpoints/*.pth
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Temporary files
+*.tmp
+temp_*.npy
+
