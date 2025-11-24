@@ -287,7 +287,7 @@ def main():
     ax1.set_title('Final Backtest: AI Pattern Recognition Strategy vs Benchmarks', 
                  fontsize=16, fontweight='bold', pad=20)
     ax1.set_ylabel('Portfolio Value ($)', fontsize=13)
-    ax1.legend(fontsize=12, loc='upper left', framealpha=0.95)
+    ax1.legend(fontsize=12, loc='upper right', framealpha=0.95)
     ax1.grid(True, alpha=0.3)
     ax1.set_ylim(bottom=strategy_equity.min() * 0.9)
     
