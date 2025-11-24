@@ -193,14 +193,16 @@ def main():
     qqq_equity = 10000 * (prices_test / prices_test[0])
     
     if tqqq_df is not None:
-        tqqq_test_start = dates_test[0]
-        tqqq_test_end = dates_test[-1]
-        tqqq_test_df = tqqq_df.loc[tqqq_test_start:tqqq_test_end]
-        
-        if len(tqqq_test_df) > 0:
-            tqqq_prices_test = tqqq_test_df['Close'].values
-            tqqq_equity = 10000 * (tqqq_prices_test / tqqq_prices_test[0])
-        else:
+        try:
+            tqqq_aligned = tqqq_df.reindex(dates_test, method='ffill')
+            tqqq_aligned = tqqq_aligned.fillna(method='ffill').fillna(method='bfill')
+            
+            if len(tqqq_aligned) > 0 and tqqq_aligned['Close'].notna().any():
+                tqqq_prices_test = tqqq_aligned['Close'].values
+                tqqq_equity = 10000 * (tqqq_prices_test / tqqq_prices_test[0])
+            else:
+                tqqq_equity = None
+        except:
             tqqq_equity = None
     else:
         tqqq_equity = None
@@ -229,12 +231,12 @@ def main():
         }
     }
     
-    if tqqq_equity is not None:
+    if tqqq_equity is not None and len(tqqq_equity) > 0:
         tqqq_returns = np.diff(tqqq_equity) / tqqq_equity[:-1]
         metrics['TQQQ'] = {
             'Final Value': tqqq_equity[-1],
             'Total Return': (tqqq_equity[-1] / tqqq_equity[0] - 1) * 100,
-            'CAGR': calculate_cagr(tqqq_equity, len(tqqq_prices_test)) * 100,
+            'CAGR': calculate_cagr(tqqq_equity, len(tqqq_equity)) * 100,
             'Max Drawdown': calculate_max_drawdown(tqqq_equity) * 100,
             'Sharpe Ratio': calculate_sharpe_ratio(tqqq_returns),
             'Sortino Ratio': calculate_sortino_ratio(tqqq_returns)
@@ -279,8 +281,7 @@ def main():
             label=f"QQQ ({metrics['QQQ']['Total Return']:.1f}%)", zorder=2)
     
     if tqqq_equity is not None and 'TQQQ' in metrics:
-        tqqq_dates = tqqq_test_df.index
-        ax1.plot(tqqq_dates, tqqq_equity, linewidth=2, color='#F18F01', alpha=0.8,
+        ax1.plot(dates_test, tqqq_equity, linewidth=2, color='#F18F01', alpha=0.8,
                 label=f"TQQQ ({metrics['TQQQ']['Total Return']:.1f}%)", zorder=1)
     
     ax1.set_title('Final Backtest: AI Pattern Recognition Strategy vs Benchmarks', 
@@ -306,7 +307,7 @@ def main():
     
     if tqqq_equity is not None and 'TQQQ' in metrics:
         tqqq_dd = (tqqq_equity - np.maximum.accumulate(tqqq_equity)) / np.maximum.accumulate(tqqq_equity)
-        ax2.fill_between(tqqq_dates, tqqq_dd * 100, 0, alpha=0.4, color='#F18F01',
+        ax2.fill_between(dates_test, tqqq_dd * 100, 0, alpha=0.4, color='#F18F01',
                         label=f"TQQQ (Max: {metrics['TQQQ']['Max Drawdown']:.1f}%)")
     
     ax2.set_title('Drawdown Comparison (Underwater Plot)', fontsize=14, fontweight='bold')
