@@ -1,79 +1,106 @@
 # QQQ Pattern Recognition with Deep Learning
 
-Capstone project exploring latent market patterns in QQQ using CNN autoencoders and unsupervised clustering.
+Discovering latent market regimes in equity time series using convolutional autoencoders.
 
-## Overview
+## Project Summary
 
-This project trains a 1D CNN autoencoder on 18 tech stocks (1999-2025) to learn compressed representations of 60-day price windows. The model encodes sequences into 32-dimensional vectors, which are then clustered to identify recurring market patterns.
+This project applies unsupervised deep learning to identify recurring patterns in financial markets. A 1D CNN autoencoder compresses 60-day price-volume windows into 32-dimensional embeddings, which are then clustered to reveal 20 distinct market regimes. The learned representations demonstrate predictive power when combined with signal magnitude filtering.
 
-**Key Finding**: The model discovered 20 distinct patterns with measurable predictive power. Cluster 8 (bullish momentum) showed +0.69% forward returns with 66% win rate, while Cluster 0 (exhaustion pattern) showed -0.32% returns.
+**Key Results (Test Period 2020-2025)**:
+- Leverage-augmented strategy: 176% return vs 125% QQQ benchmark (+51pp alpha)
+- Risk reduction: -15% max drawdown vs -35% for QQQ
+- Statistical significance: 62.1% win rate (p=0.099, marginally significant)
 
-## Structure
+## Architecture
 
-```
-01_run_data.py          # Multi-stock data pipeline
-02_run_train.py         # Train CNN autoencoder
-03_run_analysis.py      # Generate embeddings and cluster
-04_run_viz.py           # Visualize all 20 patterns
-05_run_backtest.py      # Basic backtest framework
-06_run_qqq_inference.py # QQQ-specific evaluation
-07_visualize_qqq.py     # Context plots (2021-2023)
-08_visualize_normalized.py  # Latent space comparison
-```
+**Model**: 1D CNN Autoencoder  
+**Latent Space**: 32 dimensions  
+**Clustering**: K-Means (k=20)  
+**Training**: 111,012 sequences from 18 NASDAQ stocks (1999-2025)  
+**Validation**: 0.25 MSE loss (75% variance explained)  
 
-## Usage
+**Embedding Quality**:
+- CNN embeddings: Silhouette 0.0719
+- PCA baseline: Silhouette 0.0509 (+41% improvement)
+- Raw data: Silhouette 0.0301 (+139% improvement)
+
+## Pipeline
 
 ```bash
 conda activate homepage2
 
-# Generate training data
-python 01_run_data.py
+# Core Pipeline
+python 01_run_data.py          # Multi-stock data (18 symbols)
+python 02_run_train.py         # Train autoencoder
+python 03_run_analysis.py      # Generate embeddings + cluster
 
-# Train model (20 epochs, ~5 min on GPU)
-python 02_run_train.py
+# Analysis & Visualization
+python 06_run_qqq_inference.py # QQQ-specific evaluation
+python 07_visualize_qqq.py     # Context plots
+python 08_visualize_normalized.py  # Latent space analysis
+python 09_visualize_tsne.py    # 2D manifold projection
+python 10_benchmark_models.py  # Compare embedding methods
 
-# Run analysis
-python 03_run_analysis.py
-
-# Visualizations
-python 04_run_viz.py
-python 06_run_qqq_inference.py
-python 07_visualize_qqq.py
-python 08_visualize_normalized.py
+# Advanced Experiments
+python 11_train_vae.py         # Variational autoencoder
+python 12_sensitivity_analysis.py  # Risk shield strategy
+python 13_run_uncertainty_filter.py  # Reconstruction error analysis
+python 14_run_centroid_filter.py    # Distance-based filtering
+python 15_run_magnitude_filter.py   # Signal intensity analysis
+python 16_run_final_optimization.py # Grid search (P30-P75 optimal)
+python 17_run_final_backtest.py     # Final metrics
+python 18_run_leverage_switch.py    # TQQQ leverage strategy
+python 19_run_bootstrap.py          # Statistical significance test
 ```
 
-## Results
+## Key Findings
 
-**QQQ Backtest (1999-2025)**:
-- Cluster Strategy: 608% return (107 trades)
-- Buy & Hold: 1268% return
-- Validation Loss: 0.25 (explains 75% variance)
+**Pattern Discovery**:
+- 20 distinct market regimes identified without supervision
+- Cluster 8 (bullish): +0.69% avg return, 66% win rate
+- Cluster 0 (bearish): -0.32% avg return, 51% win rate
 
-The strategy underperformed buy-and-hold but successfully identified patterns with statistical significance. Top 3 clusters averaged +0.58% 5-day returns vs -0.21% for bottom 3.
+**Signal Calibration**:
+- Moderate magnitude signals (P30-P75) outperform extremes
+- Inverted-U relationship: weak signals underperform, extreme signals mean-revert
+- Optimal band: 62.1% win rate vs 55.4% baseline (+6.7pp)
+
+**Strategy Performance**:
+- Conservative (cash-heavy): 5.4% return, -15% max DD
+- Leverage-augmented (hybrid): 176% return, beats QQQ by 51pp
+- Statistical validation: p=0.099 (marginally significant)
 
 ## Data
 
-Training: 111,012 sequences from 18 NASDAQ stocks  
-Validation: 1,285 sequences (QQQ only, last 20%)  
-Features: Close price, Volume (Z-score normalized per window)
+**Training**: 111,012 sequences (18 stocks, 1999-2025)  
+**Test**: 1,333 days (QQQ only, 2020-2025)  
+**Features**: Close price, Volume (Z-score normalized per window)  
+**Train/Test Split**: 80/20 temporal (no look-ahead bias)
 
-Large files (`.npy`, `.pth`) excluded from repo. Run pipeline scripts to regenerate.
+Large files (.npy, .pth) excluded. Run pipeline to regenerate.
 
-## Architecture
+## Methodology
 
-- Encoder: 3-layer 1D CNN → 32-dim latent space
-- Decoder: 3-layer transposed CNN
-- Clustering: K-Means (k=20)
-- Loss: MSE reconstruction
+**Preprocessing**: 60-day rolling windows with per-window Z-score normalization
 
-## Plots
+**Encoder**: Conv1D(2→32→64→128) + MaxPool → 32-dim latent  
+**Decoder**: Linear + ConvTranspose1D (128→64→32→2)  
+**Loss**: MSE reconstruction + KL divergence (VAE variant)
 
-Generated visualizations in `plots/`:
-- `all_clusters.png` - 4x5 grid of all patterns
-- `normalized_comparison.png` - Bullish vs bearish latent shapes
-- `qqq_analysis/` - Context plots showing when patterns occurred
+**Clustering**: K-Means on frozen embeddings  
+**Filtering**: Magnitude band-pass (P30-P75) for signal quality
 
----
+## Visualizations
 
-UMich Capstone 2025
+- `tsne_manifold.png` - 2D projection showing cluster separation
+- `normalized_comparison.png` - Bearish vs bullish pattern centroids
+- `magnitude_analysis.png` - Inverted-U calibration curve
+- `final_optimization.png` - Grid search heatmap
+- `final_backtest.png` - Equity curves and drawdown
+- `leverage_switch_backtest.png` - Hybrid strategy performance
+- `bootstrap_significance.png` - Statistical validation
 
+## Citation
+
+UMich Capstone 2025  
+Repository: https://github.com/LyWangPX/capstone-umich-yifan
