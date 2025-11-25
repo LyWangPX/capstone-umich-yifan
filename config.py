@@ -1,3 +1,4 @@
+# Author: Yifan Wang
 class Config:
     START_DATE = '1999-01-01'
     END_DATE = None
