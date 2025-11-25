@@ -39,6 +39,7 @@ def calculate_metrics(returns):
 
 
 def plot_backtest_results(dates, strategy_cumulative, buy_hold_cumulative, signals):
+# Plotting code generated with AI assistance
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8), height_ratios=[3, 1])
     
     ax1.plot(dates, strategy_cumulative, label='Cluster Strategy', linewidth=2, color='steelblue')

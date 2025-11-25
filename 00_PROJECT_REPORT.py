@@ -1,4 +1,5 @@
 # Author: Yifan Wang
+# 75% of this code is written by AI. Only used to report current project status.
 import numpy as np
 import pandas as pd
 from pathlib import Path

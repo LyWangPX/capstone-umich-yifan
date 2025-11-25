@@ -22,6 +22,7 @@ class ClusterVisualizer:
             centroid = cluster_data.mean(axis=0)
             std = cluster_data.std(axis=0)
             
+# Plotting code generated with AI assistance
             fig, ax = plt.subplots(figsize=(10, 6))
             
             x = np.arange(len(centroid))
@@ -43,6 +44,7 @@ class ClusterVisualizer:
         self._plot_grid_summary(data, labels, save_path)
     
     def _plot_grid_summary(self, data, labels, save_path):
+        # Plotting code generated with AI assistance
         fig, axes = plt.subplots(4, 5, figsize=(20, 16))
         axes = axes.flatten()
         

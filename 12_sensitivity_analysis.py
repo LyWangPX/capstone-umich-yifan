@@ -162,6 +162,7 @@ def main():
     print("=" * 70)
     
     print("\n[6/6] Creating Visualization...")
+# Plotting code generated with AI assistance
     fig, ax = plt.subplots(figsize=(12, 7))
     
     k_vals = [r['k'] for r in results]

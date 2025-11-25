@@ -71,6 +71,7 @@ def run_bootstrap():
     
     print("\n[3/3] Creating Visualization...")
     
+    # Plotting code generated with AI assistance
     fig, ax = plt.subplots(figsize=(12, 7))
     
     ax.hist(simulated_win_rates, bins=50, alpha=0.7, color='lightgray', 

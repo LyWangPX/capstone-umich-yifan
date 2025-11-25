@@ -103,7 +103,7 @@ def evaluate_strategy(magnitudes, returns, labels, top_clusters, lower_percentil
         'Max_Drawdown': max_dd
     }
 
-
+# This function has 30% code that co-worked with AI and re-write + debug with AI frequently
 def main():
     cfg = Config()
     device = get_device()
@@ -234,6 +234,7 @@ def main():
     
     print("\n[7/7] Creating Visualizations...")
     
+    # Plotting code generated with AI assistance
     fig = plt.figure(figsize=(18, 12))
     gs = fig.add_gridspec(3, 2, hspace=0.3, wspace=0.3)
     
@@ -248,6 +249,7 @@ def main():
     
     ax2 = fig.add_subplot(gs[1, 0])
     heatmap_sharpe = results_df.pivot(index='Upper', columns='Lower', values='Sharpe_Ratio')
+# Plotting code generated with AI assistance
     sns.heatmap(heatmap_sharpe, annot=True, fmt='.2f', cmap='viridis', ax=ax2,
                 cbar_kws={'label': 'Sharpe Ratio'})
     ax2.set_title('Sharpe Ratio by Window', fontsize=12, fontweight='bold')
@@ -256,6 +258,7 @@ def main():
     
     ax3 = fig.add_subplot(gs[1, 1])
     heatmap_count = results_df.pivot(index='Upper', columns='Lower', values='Count')
+
     sns.heatmap(heatmap_count, annot=True, fmt='d', cmap='Blues', ax=ax3,
                 cbar_kws={'label': 'Trade Count'})
     ax3.set_title('Trade Count by Window', fontsize=12, fontweight='bold')

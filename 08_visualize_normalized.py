@@ -34,6 +34,7 @@ def main():
     
     print("\n[3/3] Generating Visualization...")
     
+        # Plotting code generated with AI assistance
     fig, ax = plt.subplots(figsize=(14, 7))
     
     x = np.arange(len(cluster_0_centroid))

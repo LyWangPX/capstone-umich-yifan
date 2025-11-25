@@ -70,6 +70,8 @@ def main():
     print(f"t-SNE output: {embeddings_2d.shape}")
     
     print("\n[5/5] Creating Visualization...")
+    
+    # Plotting code generated with AI assistance
     fig, ax = plt.subplots(figsize=(12, 10))
     
     colors = np.array(['lightgrey'] * len(sampled_labels))

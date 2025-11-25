@@ -135,6 +135,7 @@ def main():
     
     print("\n[6/6] Creating Visualization...")
     
+    # Plotting code generated with AI assistance
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
     
     scatter = ax1.scatter(errors_valid, returns_valid * 100, 

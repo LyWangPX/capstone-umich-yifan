@@ -57,7 +57,7 @@ def calculate_centroid_distances(embeddings, labels, centroids):
     
     return distances
 
-
+# This function has over 50% code that co-worked with AI
 def analyze_distance_buckets(distances, returns, buckets=[25, 50, 75, 100]):
     valid_mask = ~np.isnan(distances) & ~np.isnan(returns)
     distances_valid = distances[valid_mask]
@@ -216,6 +216,7 @@ def main():
     
     print("\n[8/8] Creating Visualizations...")
     
+    # Plotting code generated with AI assistance
     fig, axes = plt.subplots(2, 2, figsize=(16, 12))
     
     valid_mask = ~np.isnan(distances) & ~np.isnan(forward_returns)

@@ -12,6 +12,7 @@ def plot_cluster_centroid(sequences, cluster_id, title, save_path):
     centroid = sequences.mean(axis=0)
     std = sequences.std(axis=0)
     
+    # Plotting code generated with AI assistance
     fig, ax = plt.subplots(figsize=(12, 6))
     x = np.arange(len(centroid))
     
@@ -36,6 +37,7 @@ def plot_context_chart(qqq_df, cluster_df, target_cluster, year, save_path):
     cluster_year = cluster_df[cluster_df['Date'].dt.year == year]
     cluster_dates = cluster_year[cluster_year['Cluster_ID'] == target_cluster]['Date']
     
+    # Plotting code generated with AI assistance
     fig, ax = plt.subplots(figsize=(14, 7))
     
     ax.plot(qqq_year.index, qqq_year['Close'], linewidth=2, color='black', label='QQQ Close Price')
@@ -62,6 +64,7 @@ def plot_comparison(bear_sequences, bull_sequences, save_path):
     bear_centroid = bear_sequences.mean(axis=0)
     bull_centroid = bull_sequences.mean(axis=0)
     
+    # Plotting code generated with AI assistance
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
     
     x = np.arange(len(bear_centroid))

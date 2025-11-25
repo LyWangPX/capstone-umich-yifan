@@ -271,6 +271,7 @@ def main():
     
     print("\n[8/8] Creating Professional Visualizations...")
     
+    # Plotting code generated with AI assistance
     fig = plt.figure(figsize=(18, 10))
     gs = fig.add_gridspec(2, 1, height_ratios=[2, 1], hspace=0.25)
     

@@ -162,6 +162,7 @@ def main():
     print(f"TQQQ Buy & Hold:                    {tqqq_return:.2f}%")
     print("=" * 80)
     
+    # Plotting code generated with AI assistance
     fig, ax = plt.subplots(figsize=(14, 7))
     
     ax.plot(dates_test, qqq_equity, label=f'QQQ ({qqq_return:.1f}%)', 

@@ -104,3 +104,5 @@ Large files (.npy, .pth) excluded. Run pipeline to regenerate.
 
 UMich Capstone 2025  
 Repository: https://github.com/LyWangPX/capstone-umich-yifan
+
+This readme is written by Yifan Wang, about 15% grammar fixed by LLM.
