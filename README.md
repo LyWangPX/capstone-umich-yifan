@@ -24,13 +24,29 @@ This project applies unsupervised deep learning to identify recurring patterns i
 - PCA baseline: Silhouette 0.0509 (+41% improvement)
 - Raw data: Silhouette 0.0301 (+139% improvement)
 
-## Pipeline
+## Data Access & Pipeline
+
+Since large data files (.npy, .pth) are excluded from the repository, you must generate the data locally before training.
+
+### 1. Data Generation
+The project uses `yfinance` to download historical stock data. Run the data generation script to:
+- Download daily Close and Volume data for 18 NASDAQ stocks (1999-2025).
+- Preprocess the data into 60-day rolling windows.
+- Apply Z-score normalization per window.
+- Save the processed sequences to `data/`.
+
+```bash
+python 01_run_data.py
+```
+
+### 2. Training & Analysis Pipeline
+
+Once the data is generated, you can proceed with the core pipeline:
 
 ```bash
 conda activate homepage2
 
 # Core Pipeline
-python 01_run_data.py          # Multi-stock data (18 symbols)
 python 02_run_train.py         # Train autoencoder
 python 03_run_analysis.py      # Generate embeddings + cluster
 
